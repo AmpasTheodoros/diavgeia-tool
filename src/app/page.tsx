@@ -30,8 +30,12 @@ export default function Home() {
       const data = await res.json();
       // The Diavgeia API (simple search) returns the decisions under the "decisions" key.
       setDecisions(data.decisions || []);
-    } catch (err: any) {
-      setError(err.message || 'Error fetching data');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Error fetching data');
+      } else {
+        setError('Error fetching data');
+      }
     }
     setLoading(false);
   };
